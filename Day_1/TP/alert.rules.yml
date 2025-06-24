@@ -1,0 +1,11 @@
+groups:
+  - name: node_active_alerts
+    rules:
+      - alert: NodeJobIsUp
+        expr: up{job="node"} == 1
+        for: 1m
+        labels:
+          severity: info
+        annotations:
+          summary: "Job 'node' is active"
+          description: "The job 'nod' has been up for at least 1 minute."
