@@ -9,3 +9,48 @@ groups:
         annotations:
           summary: "Node Exporter UP (instance={{ $labels.instance }})"
           description: "Le service node_exporter (instance {{ $labels.instance }}) ne répond depuis plus de 1 min."
+
+      - alert: NodeExporterUpDev
+        expr: up{job="node"} == 1
+        for: 1m
+        labels:
+          severity: critical
+          team: dev
+        annotations:
+          summary: "Node Exporter DOWN (instance={{ $labels.instance }})"
+          description: "Le service node_exporter (instance {{ $labels.instance }}) ne répond plus depuis plus de 1 min. Alert sent to Dev team."
+
+      - alert: NodeExporterUpInfra
+        expr: up{job="node"} == 1
+        for: 1m
+        labels:
+          severity: critical
+          team: infra
+        annotations:
+          summary: "Node Exporter DOWN (instance={{ $labels.instance }})"
+          description: "Le service node_exporter (instance {{ $labels.instance }}) ne répond plus depuis plus de 1 min. Alert sent to Infra team."
+
+  - name: app_alerts
+    rules:
+      - alert: AppErrorRate
+        expr: |
+          sum(rate(http_requests_total{job="demo_app", status=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total{job="demo_app"}[5m]))
+          > 0.05
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Taux d'erreur élevé sur l'application"
+          description: "Plus de 5 % des requêtes renvoient un code 5xx depuis 5 minutes."
+
+      - alert: AppTooFewRequests
+        expr: |
+          sum(rate(http_requests_total{job="demo_app"}[10m])) < 1
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Trop peu de requêtes vers l'application"
+          description: "Le nombre de requêtes est inférieur à 1 req/s depuis 10 minutes."

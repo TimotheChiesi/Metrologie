@@ -2,7 +2,20 @@ global:
   resolve_timeout: 5m
 
 route:
-  receiver: "console"
+  receiver: "console"  # Default receiver
+
+  routes:
+    - match:
+        team: "dev"
+      receiver: "dev"
+
+    - match:
+        team: "infra"
+      receiver: "infra"
 
 receivers:
   - name: "console"
+
+  - name: "dev"
+
+  - name: "infra"
