@@ -1,5 +1,6 @@
 1	Recherche KQL / Lucene
 Retrouver les pics de pollution	1. Discover → data-view logstash-*.
+
 2. Barre KQL :
     - Faire une recherche un Nom && data value > 10 && sur une période entre 2008 et 2014
     - N'afficher que ces champs là dans la recherche du résultat + trier par data_value décroissante
@@ -17,9 +18,9 @@ Retrouver les pics de pollution	1. Discover → data-view logstash-*.
 
     
 4    TSVB
-    - Visualize → Create → Lens.
-    - Group by : time_period.keyword (Y).
-    - Group by : name.keyword (X).
+    - Visualize → Create → TSVB.
+    - Group by : time_period.keyword.
+    - Group by : name.keyword.
     - Metric : Avg data_value.
     - Faire un screen d'une recherche sur une date puis faire un screen d'une recherche sur un name, le tout dans l'onglet "Metric"
 
